@@ -1,0 +1,69 @@
+:root {
+  --primary-orange: #FF9500; /* Фирменный оранжевый в стиле Apple */
+  --hover-orange: #E08500;
+  --bg-color: #F5F5F7;
+  --logo-color: #FFFFFF;
+  --text-color: #1D1D1F;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.site-header {
+  background-image: linear-gradient(to right, #ff9500, #c4bc2b, #90d274, #72deb7, #8ae2e4);;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 10px 20px;
+}
+
+.site-header__inner {
+  display: flex;
+ 
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.site-header__logo {
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--logo-color);
+  text-decoration: none;
+}
+
+.site-nav__list {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 15px;
+}
+
+.site-nav__link {
+  text-decoration: none;
+  color: var(--logo-color);
+  font-size: 15px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.site-nav__link:hover {
+  background-color: rgba(255, 149, 0, 0.1);
+  color: var(--primary-orange);
+}
+
+/* Стиль для активных кнопок (Печать, Поделиться) */
+.site-nav__link--active {
+  background-color: var(--primary-orange);
+  color: #FFFFFF !important;
+}
+
+.site-nav__link--active:hover {
+  background-color: var(--hover-orange);
+}
