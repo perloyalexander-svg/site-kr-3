@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Генератор открыток</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Caveat&family=Pacifico&family=Playfair+Display&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/style.css"></head>
+<body>
+<header class="site-header"><div class="site-header__inner">
+<div class="header-left"><a class="site-header__logo" href="index.html">FreePages</a><a class="site-nav__link" href="about.html">О проекте</a></div>
+<div class="header-actions"><button class="btn btn--ghost" id="btn-print">Печать</button><button class="btn btn--ghost" id="btn-share">Поделиться</button></div>
+</div></header>
+<div class="layout"><aside class="sidebar"><nav class="sidebar__menu" aria-label="Разделы">
+<a class="sidebar__link" href="index.html">✏️ Редактор</a>
+<a class="sidebar__link" href="generator.html">🎲 Генератор</a>
+<a class="sidebar__link" href="gallery.html">🖼 Мои работы</a></nav></aside><main class="content"><div class="card" id="card"><div class="card__emoji"></div><p class="card__text"></p></div><p class="hint">Текст можно перетащить</p><div class="actions"><button class="btn" id="btn-generate">🎲 Ещё раз</button><button class="btn btn--ghost" id="btn-save">Сохранить</button></div><div class="status" id="status"></div></main></div>
+<script src="js/data.js"></script><script src="js/storage.js"></script><script src="js/card.js"></script><script src="js/main.js"></script><script src="js/generator.js"></script></body></html>

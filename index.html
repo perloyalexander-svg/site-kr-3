@@ -1,32 +1,15 @@
 <!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Создание открытки</title>
-  <link rel="stylesheet" href="css/style.css">
-  <script src="js/main.js" defer></script>
-</head>
-  <body>
-    <header class="site-header">
-  <div class="site-header__inner">
-    <div class="header-right">
-    <a class="site-header__logo" href="index.html">FreePages</a>
-    <a class="site-nav__link " href="">О компании</a>
-    </div>
-
-    <nav class="site-nav" aria-label="Основная навигация">
-      <ul class="site-nav__list">
-        <li class="site-nav__item">
-          
-        </li>
-        <li class="site-nav__item">
-          <a class="site-nav__link site-nav__link--active" href="">Печать</a>
-        </li>
-        <li class="site-nav__item">
-          <a class="site-nav__link site-nav__link--active" href="">Поделиться</a>
-        </li>
-      </ul>
-    </nav>
-  </div>
-</header>
+<html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Редактор открыток</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Caveat&family=Pacifico&family=Playfair+Display&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/style.css"></head>
+<body>
+<header class="site-header"><div class="site-header__inner">
+<div class="header-left"><a class="site-header__logo" href="index.html">FreePages</a><a class="site-nav__link" href="about.html">О проекте</a></div>
+<div class="header-actions"><button class="btn btn--ghost" id="btn-print">Печать</button><button class="btn btn--ghost" id="btn-share">Поделиться</button></div>
+</div></header>
+<div class="layout"><aside class="sidebar"><nav class="sidebar__menu" aria-label="Разделы">
+<a class="sidebar__link" href="index.html">✏️ Редактор</a>
+<a class="sidebar__link" href="generator.html">🎲 Генератор</a>
+<a class="sidebar__link" href="gallery.html">🖼 Мои работы</a></nav><div class="panel"><h3>Шаблон</h3><div class="options" id="templates"></div>
+<h3>Картинка</h3><div class="options" id="images"></div>
+<h3>Шрифт</h3><div class="options" id="fonts"></div>
+<h3>Текст</h3><textarea id="text-input"></textarea></div></aside><main class="content"><div class="card" id="card"><div class="card__emoji"></div><p class="card__text"></p></div><p class="hint">Перетащи текст в нужное место</p><div class="actions"><button class="btn" id="btn-save">Сохранить</button></div><div class="status" id="status"></div></main></div>
+<script src="js/data.js"></script><script src="js/storage.js"></script><script src="js/card.js"></script><script src="js/main.js"></script><script src="js/editor.js"></script></body></html>
