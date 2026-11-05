@@ -9,13 +9,12 @@
 - `about.html` — о проекте
 
 ## Структура
-- `css/style.css` — стили
+- `css/style.css` — стили, которых нет в Bootstrap (открытка, градиенты)
 - `js/data.js` — картинки, цитаты, шрифты, шаблоны
 - `js/storage.js` — работа с localStorage
 - `js/card.js` — отрисовка открытки и drag-and-drop
 - `js/editor.js`, `js/generator.js`, `js/gallery.js` — логика страниц
-- `js/main.js` — печать и «Поделиться»
-- `images/` — папка для изображений
+- `js/main.js` — печать и скачивание
 
 ## Технологии
-HTML, CSS, JavaScript, Git, GitHub. Аккаунтов нет, открытки хранятся в localStorage.
+HTML, Bootstrap 5, CSS, JavaScript, Git, GitHub. Аккаунтов нет, открытки хранятся в localStorage.
