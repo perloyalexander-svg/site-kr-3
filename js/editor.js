@@ -14,13 +14,22 @@ function refresh() {
   });
 }
 
+// Генерация миниатюр (и для градиентов, и для фото)
 IMAGES.forEach(i => {
   const b = document.createElement('button');
   b.type = 'button';
   b.className = 'thumb';
   b.dataset.id = i.id;
   b.title = i.name;
-  b.style.background = i.css;
+  
+  if (i.url) {
+    // Для фото: делаем миниатюру с background-image
+    b.style.background = `#222 url("${i.url}") center/cover no-repeat`;
+  } else {
+    // Для градиента: ставим градиент
+    b.style.background = i.css;
+  }
+
   b.onclick = () => { state.imageId = i.id; refresh(); };
   document.getElementById('images').appendChild(b);
 });
