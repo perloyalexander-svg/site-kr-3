@@ -120,3 +120,18 @@ const TEMPLATES=[
   document.head.appendChild(link);
  }
 })();
+
+// ... (остальной код IMAGES, QUOTES, FONTS, TEMPLATES без изменений) ...
+
+const FILTERS = [
+ { id: 'original', name: 'Оригинал', preview: 'linear-gradient(45deg, #ff9a9e, #fecfef)', filter: 'none' },
+ { id: 'vivid', name: 'Яркий', preview: 'linear-gradient(45deg, #f6d365, #fda085)', filter: 'saturate(1.5) contrast(1.1)' },
+ { id: 'vivid-warm', name: 'Яркий тёплый', preview: 'linear-gradient(45deg, #f6d365, #fda085)', filter: 'saturate(1.5) contrast(1.1) sepia(0.2)' },
+ { id: 'vivid-cool', name: 'Яркий холодный', preview: 'linear-gradient(45deg, #a1c4fd, #c2e9fb)', filter: 'saturate(1.5) contrast(1.1) hue-rotate(-10deg)' },
+ { id: 'dramatic', name: 'Эффектный', preview: 'linear-gradient(45deg, #13547a, #80d0c7)', filter: 'contrast(1.3) brightness(0.9)' },
+ { id: 'dramatic-warm', name: 'Эффектный тёплый', preview: 'linear-gradient(45deg, #13547a, #80d0c7)', filter: 'contrast(1.3) brightness(0.9) sepia(0.3)' },
+ { id: 'dramatic-cool', name: 'Эффектный холодный', preview: 'linear-gradient(45deg, #13547a, #80d0c7)', filter: 'contrast(1.3) brightness(0.9) hue-rotate(-15deg)' },
+ { id: 'bw', name: 'Ч/Б', preview: 'linear-gradient(45deg, #444, #ccc)', filter: 'grayscale(1) contrast(1.1)' }
+];
+
+// ... (код загрузки шрифтов loadFonts без изменений) ...

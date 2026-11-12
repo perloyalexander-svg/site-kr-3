@@ -1,22 +1,23 @@
 function renderCard(el, card) {
   const img = IMAGES.find(i => i.id === card.imageId) || IMAGES[0];
   const font = FONTS.find(f => f.id === card.fontId) || FONTS[0];
+  const filterObj = FILTERS.find(f => f.id === card.filterId) || FILTERS[0];
 
   // Сброс старых стилей фона
   el.style.background = '';
   el.style.backgroundImage = '';
   el.style.backgroundSize = '';
   el.style.backgroundPosition = '';
+  
+  // Применяем фильтр
+  el.style.filter = filterObj.filter;
 
   if (img.url) {
-    // Если картинка-фото
     el.style.background = `#222 url("${img.url}") center/cover no-repeat`;
   } else {
-    // Если градиент
     el.style.background = img.css;
   }
 
-  // Смайлик показываем только для градиентов!
   const emojiEl = el.querySelector('.ecard__emoji');
   if (emojiEl) {
     if (img.url) {
@@ -27,7 +28,6 @@ function renderCard(el, card) {
     }
   }
 
-  // Текст
   const t = el.querySelector('.ecard__text');
   t.textContent = card.text;
   t.style.fontFamily = font.family;
@@ -57,6 +57,7 @@ async function downloadCard(card) {
   const W = 1200, H = 800;
   const img = IMAGES.find(i => i.id === card.imageId) || IMAGES[0];
   const font = FONTS.find(f => f.id === card.fontId) || FONTS[0];
+  const filterObj = FILTERS.find(f => f.id === card.filterId) || FILTERS[0];
   const size = 60;
 
   await document.fonts.load(`${size}px ${font.family}`);
@@ -64,6 +65,9 @@ async function downloadCard(card) {
   const canvas = document.createElement('canvas');
   canvas.width = W; canvas.height = H;
   const ctx = canvas.getContext('2d');
+
+  // Применяем фильтр к контексту Canvas
+  ctx.filter = filterObj.filter;
 
   if (img.url) {
     await new Promise((resolve) => {
@@ -80,7 +84,6 @@ async function downloadCard(card) {
       };
       im.src = img.url;
     });
-    // легкое затемнение для читаемости
     ctx.fillStyle = 'rgba(0,0,0,.25)';
     ctx.fillRect(0, 0, W, H);
   } else {
@@ -100,6 +103,9 @@ async function downloadCard(card) {
     ctx.fillText(img.emoji, W / 2, H / 2);
     ctx.globalAlpha = 1;
   }
+
+  // Отключаем фильтр для текста, чтобы он был четким
+  ctx.filter = 'none';
 
   ctx.font = `${size}px ${font.family}`;
   ctx.fillStyle = '#fff';

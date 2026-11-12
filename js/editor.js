@@ -1,4 +1,4 @@
-const state = { id: null, imageId: IMAGES[0].id, text: 'Напиши своё пожелание', fontId: FONTS[0].id, x: 50, y: 50 };
+const state = { id: null, imageId: IMAGES[0].id, text: 'Напиши своё пожелание', fontId: FONTS[0].id, x: 50, y: 50, filterId: 'original' };
 const cardEl = document.getElementById('card');
 const textInput = document.getElementById('text-input');
 const statusEl = document.getElementById('status');
@@ -12,24 +12,22 @@ function refresh() {
   document.querySelectorAll('#fonts button').forEach(b => {
     b.classList.toggle('active', b.dataset.id === state.fontId);
   });
+  document.querySelectorAll('#filters .filter-btn').forEach(b => {
+    b.classList.toggle('is-selected', b.dataset.id === (state.filterId || 'original'));
+  });
 }
 
-// Генерация миниатюр (и для градиентов, и для фото)
 IMAGES.forEach(i => {
   const b = document.createElement('button');
   b.type = 'button';
   b.className = 'thumb';
   b.dataset.id = i.id;
   b.title = i.name;
-  
   if (i.url) {
-    // Для фото: делаем миниатюру с background-image
     b.style.background = `#222 url("${i.url}") center/cover no-repeat`;
   } else {
-    // Для градиента: ставим градиент
     b.style.background = i.css;
   }
-
   b.onclick = () => { state.imageId = i.id; refresh(); };
   document.getElementById('images').appendChild(b);
 });
@@ -55,6 +53,16 @@ TEMPLATES.forEach(t => {
     refresh();
   };
   document.getElementById('templates').appendChild(b);
+});
+
+FILTERS.forEach(f => {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'filter-btn';
+  b.dataset.id = f.id;
+  b.innerHTML = `<div class="filter-btn__preview" style="background:${f.preview}"></div><div class="filter-btn__name">${f.name}</div>`;
+  b.onclick = () => { state.filterId = f.id; refresh(); };
+  document.getElementById('filters').appendChild(b);
 });
 
 textInput.addEventListener('input', () => {

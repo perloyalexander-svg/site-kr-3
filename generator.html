@@ -10,6 +10,14 @@
 <div class="container-xl app"><div class="row g-0"><aside class="col-12 col-md-4 col-lg-3 sidebar"><nav class="nav nav-pills flex-row flex-md-column gap-1 mb-3" aria-label="Разделы">
 <a class="nav-link sidebar__link" href="editor.html">✏️ Редактор</a>
 <a class="nav-link sidebar__link" href="generator.html">🎲 Генератор</a>
-<a class="nav-link sidebar__link" href="gallery.html">🖼 Мои работы</a></nav></aside><main class="col-12 col-md-8 col-lg-9 d-flex flex-column align-items-center gap-3 p-3 p-md-4"><div class="ecard" id="card"><div class="ecard__emoji"></div><p class="ecard__text"></p></div><p class="hint">Текст можно перетащить</p><div class="actions d-flex gap-2"><button class="btn btn-brand" id="btn-generate">🎲 Ещё раз</button><button class="btn btn-light border" id="btn-save">Сохранить</button></div><div class="status" id="status"></div></main></div></div>
+<a class="nav-link sidebar__link" href="gallery.html">🖼 Мои работы</a></nav></aside><!-- ... (head и header без изменений) ... -->
+<main class="col-12 col-md-8 col-lg-9 d-flex flex-column align-items-center gap-3 p-3 p-md-4">
+ <div class="filters-bar" id="filters"></div>
+ <div class="ecard" id="card"><div class="ecard__emoji"></div><p class="ecard__text"></p></div>
+ <p class="hint">Текст можно перетащить</p>
+ <div class="actions d-flex gap-2"><button class="btn btn-brand" id="btn-generate">🎲 Ещё раз</button><button class="btn btn-light border" id="btn-save">Сохранить</button></div>
+ <div class="status" id="status"></div>
+</main>
+<!-- ... (скрипты без изменений) ... --></div></div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script><script src="js/data.js"></script><script src="js/storage.js"></script><script src="js/card.js"></script><script src="js/main.js"></script><script src="js/generator.js"></script></body></html>
