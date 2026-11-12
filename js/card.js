@@ -3,13 +3,23 @@ function renderCard(el, card) {
   const font = FONTS.find(f => f.id === card.fontId) || FONTS[0];
   const filterObj = FILTERS.find(f => f.id === card.filterId) || FILTERS[0];
 
-  // Сброс старых стилей фона
+  // === ПРИМЕНЕНИЕ РАЗМЕРА ===
+  let maxW = '640px';
+  let aspectRatio = '3/2';
+  if (card.size === 'small') maxW = '400px';
+  else if (card.size === 'large') maxW = '900px';
+  else if (card.size === 'custom' && card.customWidth && card.customHeight) {
+    maxW = Math.max(100, Math.min(card.customWidth, 2000)) + 'px';
+    aspectRatio = `${card.customWidth} / ${card.customHeight}`;
+  }
+  el.style.maxWidth = maxW;
+  el.style.aspectRatio = aspectRatio;
+  // =========================
+
   el.style.background = '';
   el.style.backgroundImage = '';
   el.style.backgroundSize = '';
   el.style.backgroundPosition = '';
-  
-  // Применяем фильтр
   el.style.filter = filterObj.filter;
 
   if (img.url) {
@@ -33,6 +43,88 @@ function renderCard(el, card) {
   t.style.fontFamily = font.family;
   t.style.left = card.x + '%';
   t.style.top = card.y + '%';
+
+  let stickersContainer = el.querySelector('.ecard__stickers');
+  if (!stickersContainer) {
+    stickersContainer = document.createElement('div');
+    stickersContainer.className = 'ecard__stickers';
+    stickersContainer.style.position = 'absolute';
+    stickersContainer.style.inset = '0';
+    stickersContainer.style.pointerEvents = 'none';
+    stickersContainer.style.zIndex = '5';
+    
+    const textEl = el.querySelector('.ecard__text');
+    if (textEl) {
+      el.insertBefore(stickersContainer, textEl);
+    } else {
+      el.appendChild(stickersContainer);
+    }
+  }
+  stickersContainer.innerHTML = '';
+
+  const stickers = card.stickers || [];
+  stickers.forEach(s => {
+    const stickerEl = document.createElement('div');
+    stickerEl.className = 'ecard__sticker';
+    stickerEl.style.left = s.x + '%';
+    stickerEl.style.top = s.y + '%';
+    stickerEl.style.width = (s.widthPercent || 20) + '%';
+    stickerEl.style.pointerEvents = 'auto';
+
+    const imgEl = document.createElement('img');
+    imgEl.src = s.url;
+    stickerEl.appendChild(imgEl);
+
+    const delBtn = document.createElement('button');
+    delBtn.className = 'sticker-delete';
+    delBtn.innerHTML = '×';
+    delBtn.onclick = (e) => {
+      e.stopPropagation();
+      const idx = card.stickers.findIndex(x => x.id === s.id);
+      if (idx !== -1) {
+        card.stickers.splice(idx, 1);
+        stickerEl.remove();
+      }
+    };
+    stickerEl.appendChild(delBtn);
+
+    makeStickerDraggable(stickerEl, el, s);
+    stickersContainer.appendChild(stickerEl);
+  });
+}
+
+function makeStickerDraggable(stickerEl, cardEl, stickerObj) {
+  stickerEl.addEventListener('pointerdown', e => {
+    if (e.target.closest('.sticker-delete')) return;
+    stickerEl.setPointerCapture(e.pointerId);
+    
+    const rect = cardEl.getBoundingClientRect();
+    const startX = e.clientX;
+    const startY = e.clientY;
+    const initialX = stickerObj.x;
+    const initialY = stickerObj.y;
+    
+    const move = ev => {
+      const dx = (ev.clientX - startX) / rect.width * 100;
+      const dy = (ev.clientY - startY) / rect.height * 100;
+      
+      let newX = Math.min(100, Math.max(0, initialX + dx));
+      let newY = Math.min(100, Math.max(0, initialY + dy));
+      
+      stickerObj.x = newX;
+      stickerObj.y = newY;
+      
+      stickerEl.style.left = newX + '%';
+      stickerEl.style.top = newY + '%';
+    };
+    
+    const up = () => {
+      stickerEl.removeEventListener('pointermove', move);
+      stickerEl.removeEventListener('pointerup', up);
+    };
+    stickerEl.addEventListener('pointermove', move);
+    stickerEl.addEventListener('pointerup', up);
+  });
 }
 
 function makeDraggable(el, onChange) {
@@ -54,7 +146,16 @@ function makeDraggable(el, onChange) {
 function pick(arr) { return arr[Math.floor(Math.random() * arr.length)] }
 
 async function downloadCard(card) {
-  const W = 1200, H = 800;
+  // === ДИНАМИЧЕСКИЙ РАСЧЕТ РАЗМЕРА CANVAS ===
+  let aspect = 3 / 2;
+  if (card.size === 'custom' && card.customWidth && card.customHeight) {
+    aspect = card.customWidth / card.customHeight;
+  }
+  let W = 1200;
+  let H = W / aspect;
+  if (H > 1200) { H = 1200; W = H * aspect; }
+  // =============================================
+
   const img = IMAGES.find(i => i.id === card.imageId) || IMAGES[0];
   const font = FONTS.find(f => f.id === card.fontId) || FONTS[0];
   const filterObj = FILTERS.find(f => f.id === card.filterId) || FILTERS[0];
@@ -66,7 +167,6 @@ async function downloadCard(card) {
   canvas.width = W; canvas.height = H;
   const ctx = canvas.getContext('2d');
 
-  // Применяем фильтр к контексту Canvas
   ctx.filter = filterObj.filter;
 
   if (img.url) {
@@ -104,7 +204,24 @@ async function downloadCard(card) {
     ctx.globalAlpha = 1;
   }
 
-  // Отключаем фильтр для текста, чтобы он был четким
+  const stickers = card.stickers || [];
+  for (const s of stickers) {
+    await new Promise((resolve) => {
+      const im = new Image();
+      im.onload = () => {
+        const w = s.widthPercent || 20;
+        const dw = (w / 100) * W;
+        const dh = dw * (s.aspectRatio || 1);
+        const dx = (s.x / 100) * W - dw / 2;
+        const dy = (s.y / 100) * H - dh / 2;
+        ctx.drawImage(im, dx, dy, dw, dh);
+        resolve();
+      };
+      im.onerror = () => resolve();
+      im.src = s.url;
+    });
+  }
+
   ctx.filter = 'none';
 
   ctx.font = `${size}px ${font.family}`;

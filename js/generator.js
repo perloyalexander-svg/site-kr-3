@@ -1,4 +1,4 @@
-const state = { id: null, imageId: IMAGES[0].id, text: '', fontId: FONTS[0].id, x: 50, y: 50, filterId: 'original' };
+const state = { id: null, imageId: IMAGES[0].id, text: '', fontId: FONTS[0].id, x: 50, y: 50, filterId: 'original', stickers: [], size: 'medium', customWidth: 640, customHeight: 427 };
 const cardEl = document.getElementById('card');
 const statusEl = document.getElementById('status');
 
@@ -8,9 +8,9 @@ function generate() {
   state.text = pick(QUOTES);
   state.fontId = pick(FONTS).id;
   state.filterId = pick(FILTERS).id;
+  state.stickers = [];
   state.x = 50; state.y = 50;
   
-  // Обновляем активную кнопку фильтра
   document.querySelectorAll('#filters .filter-btn').forEach(b => {
     b.classList.toggle('is-selected', b.dataset.id === state.filterId);
   });
@@ -19,7 +19,6 @@ function generate() {
   statusEl.textContent = '';
 }
 
-// Инициализация фильтров
 FILTERS.forEach(f => {
   const b = document.createElement('button');
   b.type = 'button';
